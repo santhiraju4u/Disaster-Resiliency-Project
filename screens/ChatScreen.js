@@ -9,11 +9,11 @@ const ChatScreen = props => {
             <View>
                 <Text style={styles.textHeading}>Chat Now</Text>
             </View>
-            <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.buttonContainer}>
                 <View style={styles.button} >
                     <Text style={styles.buttonText}>Send</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
             <View>
                 <AppTabs/>
             </View>

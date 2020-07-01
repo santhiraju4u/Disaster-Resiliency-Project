@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const AppTabs = props => {
     return(
     <View style={styles.tabsContainer}>
-        <View>
+        <TouchableOpacity onPress={()=>{alert('You are on Home screen')}}>
             <Text style={styles.text}>Home</Text>
-        </View>
-        <View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{alert('You are on Chat Now screen')}}>
             <Text style={styles.text}>Chat Now</Text>
-        </View>
-        <View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{alert('You are on Map screen')}}>
             <Text style={styles.text}>Map</Text>
-        </View>
+        </TouchableOpacity>
     </View>
 
     )};
