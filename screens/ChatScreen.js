@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, TextInput } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppTabs from '../components/appTabs'
 
@@ -10,6 +10,14 @@ const ChatScreen = props => {
                 <Text style={styles.textHeading}>Chat Now</Text>
             </View>
             <TouchableOpacity style={styles.buttonContainer}>
+                <View>
+                    <TextInput 
+                        style={styles.textInput} 
+                        
+                        autoCapitalize = "characters" 
+                        multiline
+                        placeholder = "Hello.! I'm disaster resiliency assistent. I can answer about what disasters are. How can I help you?"></TextInput>
+                </View>
                 <View style={styles.button} >
                     <Text style={styles.buttonText}>Send</Text>
                 </View>
@@ -31,12 +39,23 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex:1,
-        justifyContent: 'flex-end',        
+        justifyContent: 'flex-end',     
+         
+    },
+    textInput: { 
+        marginBottom: 10,
+        height: 100, 
+        borderColor: 'gray', 
+        borderWidth: 1 ,
+        borderRadius: 40,
+        padding: 10,
+        
     },
     button: {
+        
         backgroundColor: Colors.primary,
         paddingVertical: 12,
-        marginBottom: 36,
+        marginBottom: 10,
         borderRadius: 40,
     },
     buttonText: {
