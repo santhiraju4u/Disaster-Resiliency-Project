@@ -17,7 +17,8 @@ const MapScreen = props => {
 
 const styles = StyleSheet.create({
     MapScreen: {
-        padding: 30,
+        padding: 10,
+        paddingHorizontal: 20,
         flex: 1,
     },
     textHeading: {

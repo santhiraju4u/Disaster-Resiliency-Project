@@ -14,7 +14,7 @@ const ChatScreen = props => {
                     <TextInput 
                         style={styles.textInput} 
                         
-                        autoCapitalize = "characters" 
+                        //autoCapitalize = "characters" 
                         multiline
                         placeholder = "Hello.! I'm disaster resiliency assistent. I can answer about what disasters are. How can I help you?"></TextInput>
                 </View>
@@ -30,7 +30,8 @@ const ChatScreen = props => {
 
 const styles = StyleSheet.create({
     ChatScreen: {
-        padding: 30,
+        padding: 10,
+        paddingHorizontal: 20,
         flex: 1,
     },
     textHeading: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
          
     },
     textInput: { 
-        marginBottom: 10,
+        marginBottom: 3,
         height: 100, 
         borderColor: 'gray', 
         borderWidth: 1 ,
@@ -54,8 +55,8 @@ const styles = StyleSheet.create({
     button: {
         
         backgroundColor: Colors.primary,
-        paddingVertical: 12,
-        marginBottom: 10,
+        //paddingVertical: 12,
+       // marginBottom: 10,
         borderRadius: 40,
     },
     buttonText: {
