@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
-import ChatScreen from './screens/ChatScreen';
-import MapScreen from './screens/MapScreen';
+
+import NavigationContainer from './navigation/tabsNavigation';
 
 
 export default function App() {
   return (
-    <ChatScreen/>    
+    <NavigationContainer/>    
   )};

@@ -22,9 +22,9 @@ const ChatScreen = props => {
                     <Text style={styles.buttonText}>Send</Text>
                 </View>
             </TouchableOpacity>
-            <View>
+            {/* <View>
                 <AppTabs/>
-            </View>
+            </View> */}
         </View>     
 )};
 

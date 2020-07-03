@@ -9,9 +9,9 @@ const MapScreen = props => {
             <View>
                 <Text style={styles.textHeading}>Map</Text>
             </View>
-            <View style={styles.buttonContainer}>
+            {/* <View style={styles.buttonContainer}>
                 <AppTabs/>
-            </View>
+            </View> */}
         </View>     
 )};
 
