@@ -9,19 +9,20 @@ const ChatScreen = props => {
             <View>
                 <Text style={styles.textHeading}>Chat Now</Text>
             </View>
-            <TouchableOpacity style={styles.buttonContainer}>
+            <View style={styles.buttonContainer}>
                 <View>
                     <TextInput 
                         style={styles.textInput} 
-                        
                         //autoCapitalize = "characters" 
                         multiline
                         placeholder = "Hello.! I'm disaster resiliency assistent. I can answer about what disasters are. How can I help you?"></TextInput>
                 </View>
+                <TouchableOpacity>
                 <View style={styles.button} >
                     <Text style={styles.buttonText}>Send</Text>
                 </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </View>
             {/* <View>
                 <AppTabs/>
             </View> */}
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         
         backgroundColor: Colors.primary,
         //paddingVertical: 12,
-       // marginBottom: 10,
+        //marginBottom: 10,
         borderRadius: 40,
     },
     buttonText: {
