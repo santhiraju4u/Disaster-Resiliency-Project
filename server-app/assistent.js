@@ -2,14 +2,14 @@ const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 const apiVersion = '2020-19-06';
-const assistantId= '701f1c5e-469a-49c3-8931-6121cead6a94';
-const apikey= 'sZZKQErn3r0t6M56CpQ4QYxJ9jexi16G3pV4LoZCjIF5';
-const apiUrl= 'https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/809ca36b-dc7b-4e85-bbd6-11a440687887';
+const assistantId = process.env.ASSISTANT_ID || '<assistant_id>'
+const apiKey = process.env.ASSISTANT_IAM_APIKEY || '<assistant_apikey>';
+const apiUrl = process.env.ASSISTANT_URL || 'https://gateway.watsonplatform.net/assistant/api/';
 
 const assistant = new AssistantV2({
   version: apiVersion,
   authenticator: new IamAuthenticator({
-  apikey: apikey,
+  apikey: apiKey,
   }),
   url: apiUrl,
   disableSslVerification: 'false',

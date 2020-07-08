@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView, View, Text, TextInput, Button } from 'react-native';
+import Config from 'react-native-config';
+
 
 
 const styles = StyleSheet.create({
@@ -66,6 +68,8 @@ const styles = StyleSheet.create({
 
 
 const serverUrl = 'http://disaster-resiliency-app-grateful-hyrax-mt.eu-gb.mybluemix.net';
+//const serverUrl = process.env.ASSISTANT_SERVER_URL;
+//const serverUrl = Config.ASSISTANT_SERVER_URL;
 
 const Message = (props) => {
   const style = props.fromInput ? styles.myText : styles.waText;

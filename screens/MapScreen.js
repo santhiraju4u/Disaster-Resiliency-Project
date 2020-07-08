@@ -1,34 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import AppTabs from '../components/appTabs'
+import MapView from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
-const MapScreen = props => {
-    return(
-        <View style={styles.MapScreen}>
-            <View>
-                <Text style={styles.textHeading}>Map</Text>
-            </View>
-            {/* <View style={styles.buttonContainer}>
-                <AppTabs/>
-            </View> */}
-        </View>     
-)};
+//export default class MapScreen extends React.Component {
+//  render() {
+const MapScreen = function () { 
+return (
+        
+      <View style={styles.container}>
+        <MapView style={styles.mapStyle} 
+            initialRegion={{
+                latitude: 51.5230,
+                longitude: 0.0803,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}/>
+      </View>
+    );
+  }
+//}
 
 const styles = StyleSheet.create({
-    MapScreen: {
-        padding: 10,
-        paddingHorizontal: 20,
-        flex: 1,
-    },
-    textHeading: {
-        fontSize: 30,
-        paddingVertical: 30,
-    },
-    buttonContainer: {
-        flex:1,
-        justifyContent: 'flex-end',        
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
 });
 
 export default MapScreen;
