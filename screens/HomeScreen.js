@@ -75,7 +75,7 @@ class Accordion_Panel extends Component {
   }
 }
 
-export default class App extends Component {
+export default class HomeScreen extends Component {
 
   constructor() {
     super();

@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
+import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
 import MapScreen from '../screens/MapScreen';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -11,9 +11,7 @@ import { HomeIcon, ChatIcon, MapIcon } from '../assets/images/svg-icons';
 
 function HomeScreenRender() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
+    <HomeScreen/>
   );
 }
 
