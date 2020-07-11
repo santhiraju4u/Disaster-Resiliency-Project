@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MapView from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
@@ -6,39 +6,39 @@ import { TextInput } from 'react-native-gesture-handler';
 //export default class MapScreen extends React.Component {
 //  render() {
 const MapScreen = function () { 
+  const [postCode, setPostCode] = useState ();
+  const postCodeChangeHandler = text => {
+    setPostCode(text);
+  };
+  
 return (
 
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput placeholder='Enter Post Code...' 
             returnKeyType='send'
+            keyboardType= 'default'
             style={styles.textInput}
+            onChangeText={postCodeChangeHandler}
           />
           <View style={styles.submitButton}>
-            <Button title='Submit' onPress={getInitialState}/>
+            <Button title='Submit'/>
           </View>
         </View>
         <MapView style={styles.mapStyle} 
-            initialRegion={{
-              latitude: 51.5230,
-              longitude: 0.0803,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }
-          }/>
+            showsUserLocation = {true}
+            followUserLocation = {false}
+            zoomEnabled = {true}
+            // initialRegion={{
+            //   latitude: 51.5230,
+            //   longitude: 0.0803,
+            //   latitudeDelta: 0.0922,
+            //   longitudeDelta: 0.0421,
+            // }}
+            />
       </View>
     );
   }
-
-const getInitialState = () =>
-{
-  return{
-    steInitialRegion: {
-      latitude: 51.5230,
-      longitude: 0.0803,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-}}};
 
 
 const styles = StyleSheet.create({
