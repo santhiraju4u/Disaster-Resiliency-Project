@@ -23,6 +23,12 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "permissions": ["CAMERA"]
     }
+
+
   }
+
 }
