@@ -12,7 +12,7 @@ import MapView, { Marker } from "react-native-maps";
 import HeaderButton from "../components/UI/HeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-const MapScreen = (props) => {
+const MapScreenMain = (props) => {
   const initialLocation = props.navigation.getParam("initialLocation");
   const readonly = props.navigation.getParam("readonly");
 
@@ -67,17 +67,20 @@ const MapScreen = (props) => {
     </MapView>
   );
 };
-MapScreen.navigationOptions = (navData) => {
-  const saveFn = navData.navigation.getParam("saveLocation");
-  const readonly = navData.navigation.getParam("readonly");
-  if (readonly) {
-    return {};
-  }
+
+MapScreenMain.navigationOptions = (navData) => {
   return {
-    headerRight: () => (
-      <TouchableOpacity style={styles.headerButton} onPress={saveFn}>
-        <Text style={styles.headerButtonText}>Save</Text>
-      </TouchableOpacity>
+    headerTitle: "Map View",
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
     ),
   };
 };
@@ -95,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MapScreen;
+export default MapScreenMain;

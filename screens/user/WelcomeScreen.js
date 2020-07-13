@@ -1,20 +1,20 @@
 import React from "react";
-
-import { ImageBackground, StyleSheet, View, Text } from "react-native";
-import HeaderButton from "../components/UI/HeaderButton";
-import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-function HomeScreen(props) {
+import HeaderButton from "../../components/UI/HeaderButton";
+import { ImageBackground, StyleSheet } from "react-native";
+
+function WelcomeScreen(props) {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
-    </View>
+    <ImageBackground
+      style={styles.centered}
+      source={require("../../images/home.png")}
+    ></ImageBackground>
   );
 }
-HomeScreen.navigationOptions = (navData) => {
+WelcomeScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: "Home for now",
+    headerTitle: "Your Ordersfinal",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default WelcomeScreen;
