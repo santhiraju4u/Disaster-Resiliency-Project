@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  Picker,
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -18,6 +19,7 @@ const NewPlaceScreen = (props) => {
   const [titleValue, setTitleValue] = useState("");
   const [selectedImage, setSelectedImage] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
+  const [selectedBase64, setselectedBase64] = useState();
 
   const dispatch = useDispatch();
 
@@ -26,8 +28,9 @@ const NewPlaceScreen = (props) => {
     setTitleValue(text);
   };
 
-  const imageTakenHandler = (imagePath) => {
+  const imageTakenHandler = (imagePath,imageBase64) => {
     setSelectedImage(imagePath);
+    setselectedBase64(imageBase64);
   };
 
   const locationPickedHandler = useCallback((location) => {
@@ -36,7 +39,7 @@ const NewPlaceScreen = (props) => {
 
   const savePlaceHandler = () => {
     dispatch(
-      placesActions.addPlace(titleValue, selectedImage, selectedLocation)
+      placesActions.addPlace(titleValue, selectedImage, selectedLocation, selectedBase64)
     );
     props.navigation.goBack();
   };
@@ -44,12 +47,24 @@ const NewPlaceScreen = (props) => {
   return (
     <ScrollView>
       <View style={styles.form}>
-        <Text style={styles.label}>Title</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={titleChangeHandler}
-          value={titleValue}
-        />
+        <View>
+          <Text style={styles.label}>Select the issue to report below</Text>
+            <Picker style={styles.picker}
+              selectedValue={titleValue}
+              style={{ height: 50, width: '100%' }}
+              onValueChange={titleChangeHandler}
+              >
+              <Picker.Item label="Select the issue" color="#dc143c" value="placeholder"/>
+              {/* <Picker.Item label="------------------------" color='#00ffff'/> */}
+              <Picker.Item label="Fire" value="fire" />
+              <Picker.Item label="Water Leakage" value="waterleak" />
+              <Picker.Item label="Bush Fire" value="bushfire" />
+              <Picker.Item label="Toxic Leakage" value="toxicleak" />
+              <Picker.Item label="Flood" value="flood" />
+              <Picker.Item label="Earthquake" value="earthquake" />
+              <Picker.Item label="Tsunami" value="tsunami" />
+            </Picker>
+        </View>
         <ImagePicker onImageTaken={imageTakenHandler} />
         <LocationPicker
           navigation={props.navigation}

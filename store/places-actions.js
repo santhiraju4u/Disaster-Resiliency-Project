@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import * as Expo from 'expo';
-import * as Stream from 'stream';
+
 
 import { insertPlace, fetchPlaces } from "../helpers/db";
 import ENV from "../env";
@@ -12,9 +12,9 @@ export const SET_PLACES = "SET_PLACES";
 
 
 
-export const addPlace = (title, image, location) => {
+export const addPlace = (title, image, location, imageBase64) => {
   return async (dispatch) => {
-    IBMCOSClient.doCreateObject(title,image,location);
+    IBMCOSClient.doCreateObject(title,location,imageBase64);
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${ENV.googleApiKey}`
     );

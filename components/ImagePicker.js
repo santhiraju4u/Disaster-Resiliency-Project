@@ -29,11 +29,12 @@ const ImgPicker = props => {
     const image = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
-      quality: 0.5
+      quality: 0.1,
+      base64: true
     });
 
-    setPickedImage(image.uri);
-    props.onImageTaken(image.uri);
+    setPickedImage(image.base64);
+    props.onImageTaken(image.uri,image.base64);
   };
 
   return (
@@ -42,7 +43,7 @@ const ImgPicker = props => {
         {!pickedImage ? (
           <Text>No image picked yet.</Text>
         ) : (
-          <Image style={styles.image} source={{ uri: pickedImage }} />
+          <Image style={styles.image} source={{uri: `data:image/gif;base64,${pickedImage}`}} />
         )}
       </View>
       <Button

@@ -1,6 +1,3 @@
-import IBMCOS from 'ibm-cos-sdk';
-import util from 'util';
-import stream from 'stream';
 import * as AWS from 'aws-sdk';
 //AWS.EventListeners['Core'].removeListener('afterBuild', AWS.EventListeners['Core'].COMPUTE_SHA256);
 
@@ -28,12 +25,12 @@ export const doCreateBucket = () => {
     }).promise();
 }
  
-export const doCreateObject = (title,image,location) => {
+export const doCreateObject = (title,location,imageBase64) => {
     console.log('Creating object');
     return cos.putObject({
         Bucket: 'disaster-resiliency-my-bucket-test1',
-        Key: JSON.stringify(image),
-        Body: JSON.stringify(location)
+        Key: title + "_" + location.lat + "_" + location.lng,
+        Body: imageBase64
     }).promise();
 }
  
