@@ -5,7 +5,8 @@ import * as Permissions from "expo-permissions";
 //import { storage } from "./firebase";
 import * as firebase from "firebase";
 import Colors from "../constants/Colors";
-//import uuid from "react-native-uuid";
+import "react-native-get-random-values";
+import { v1 as uuidv1 } from "uuid";
 
 const ImgPicker = (props) => {
   const [pickedImage, setPickedImage] = useState();
@@ -33,8 +34,11 @@ const ImgPicker = (props) => {
       aspect: [16, 9],
       quality: 0.5,
     });
-    const uuid = 3;
-    const nam = "test-image" + uuid;
+    var myRef = firebase.database().ref().push();
+    var key = myRef.key;
+    const nam = "image" + key;
+    console.log("************************");
+    console.log(key);
     if (!image.cancelled) {
       await uploadImage(image.uri, nam)
         .then(() => {
@@ -43,15 +47,15 @@ const ImgPicker = (props) => {
         .catch((error) => {
           Alert.alert(JSON.stringify(error));
         });
+      var ref = firebase
+        .storage()
+        .ref()
+        .child("images/" + nam);
+      let url = await ref.getDownloadURL();
+      console.log("Image stored here" + url);
+      setPickedImage(url);
+      props.onImageTaken(url);
     }
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("images/" + nam);
-    let url = await ref.getDownloadURL();
-    console.log("Image stored here" + url);
-    setPickedImage(url);
-    props.onImageTaken(url);
   };
   const uploadImage = async (uri, imageName) => {
     const response = await fetch(uri);
