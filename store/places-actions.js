@@ -117,7 +117,7 @@ export const loadPlaces = () => {
         );
       }
       console.log("this is loaded products");
-      console.log(loadedProducts.ownerID);
+      console.log(loadedProducts);
       console.log("///////////////////////////////////////////////////");
       console.log("filtered products are");
       console.log(userId);
@@ -129,8 +129,10 @@ export const loadPlaces = () => {
       dispatch({
         type: SET_PLACES,
         places: loadedProducts,
-        // userPlaces: loadedProducts.filter((prod) => prod.ownerID === userId),
-        userPlaces: loadedProducts,
+        // mapRegion.region
+        // .filter((item) => item.title == "Fire")
+        userPlaces: loadedProducts.filter((prod) => prod.ownerId == userId),
+        //userPlaces: loadedProducts,
       });
     } catch (err) {
       throw err;

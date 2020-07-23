@@ -61,6 +61,28 @@ const MapScreenMain = (props) => {
 
   const getLocationHandler = async () => {
     const hasPermission = await verifyPermissions();
+
+    const response = await fetch(
+      `https://hackathon-9c653.firebaseio.com/places.json`
+    );
+    const resData = await response.json(); //fetching from server
+    console.log("your dataaaaaaaaaaaaaaaaaaaaaaaaaa");
+    console.log(resData);
+    console.log("lat only------------------------");
+    var result = [];
+    var keys = Object.keys(resData);
+    keys.forEach(function (key) {
+      result.push(resData[key]);
+    });
+
+    let wholeArray = Object.keys(resData).map((key) => resData[key]);
+    const load = [];
+    for (const key in resData) {
+      load.push(resData[key].coords);
+    }
+    //const hg = resData.key.coords.lat;
+    console.log(wholeArray.coords);
+
     if (!hasPermission) {
       return;
     }
