@@ -25,7 +25,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { Callout } from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
-
+import PlaceItem from "../components/PlaceItem";
 import * as placesActions from "../store/places-actions";
 
 const MapScreenMain = (props) => {
@@ -45,6 +45,16 @@ const MapScreenMain = (props) => {
   // }, [dispatch]);
 
   /////////////////////////////////////////
+  const places = useSelector((state) => state.places.places);
+  console.log("Your places are");
+  console.log(places);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(placesActions.loadPlaces());
+  }, [dispatch]);
+
   /////////////////////////////////////////////////
   const verifyPermissions = async () => {
     const result = await Permissions.askAsync(Permissions.LOCATION);
@@ -61,27 +71,6 @@ const MapScreenMain = (props) => {
 
   const getLocationHandler = async () => {
     const hasPermission = await verifyPermissions();
-
-    const response = await fetch(
-      `https://hackathon-9c653.firebaseio.com/places.json`
-    );
-    const resData = await response.json(); //fetching from server
-    console.log("your dataaaaaaaaaaaaaaaaaaaaaaaaaa");
-    console.log(resData);
-    console.log("lat only------------------------");
-    var result = [];
-    var keys = Object.keys(resData);
-    keys.forEach(function (key) {
-      result.push(resData[key]);
-    });
-
-    let wholeArray = Object.keys(resData).map((key) => resData[key]);
-    const load = [];
-    for (const key in resData) {
-      load.push(resData[key].coords);
-    }
-    //const hg = resData.key.coords.lat;
-    console.log(wholeArray.coords);
 
     if (!hasPermission) {
       return;
@@ -248,23 +237,30 @@ const MapScreenMain = (props) => {
       loadingEnabled={true}
       loadingIndicatorColor={"#606060"}
     >
-      {mapRegion.region
-        .filter((item) => item.title == "Fire")
-        .map((marker) => (
-          <Marker
-            key={marker.id}
-            coordinate={marker.regionone}
-            title={marker.title}
-          >
-            <MapView.Callout tooltip={false}>
-              <Text>Fire</Text>
-            </MapView.Callout>
-            {/* <InfoWindow key={marker.id} visible={true}>
+      {places.map((marker) => (
+        <Marker
+          key={marker.id}
+          coordinate={{ latitude: marker.lat, longitude: marker.lng }}
+          title={marker.title}
+        >
+          {/* <MapView.Callout tooltip={false}>
+            <Text>Fire</Text>
+          </MapView.Callout> */}
+          {/* <InfoWindow key={marker.id} visible={true}>
             <div>{marker.title}</div>
           </InfoWindow> */}
-            {/* <Text style={{ color: "black", marginBottom: 50 }}>My Location</Text> */}
-          </Marker>
-        ))}
+          {/* <Text style={{ color: "black", marginBottom: 50 }}>My Location</Text> */}
+        </Marker>
+      ))}
+
+      {/* <MapView.Callout tooltip={false}>
+        <Text>Fire</Text>
+      </MapView.Callout> */}
+      {/* <InfoWindow key={marker.id} visible={true}>
+            <div>{marker.title}</div>
+          </InfoWindow> */}
+      {/* <Text style={{ color: "black", marginBottom: 50 }}>My Location</Text> */}
+
       {/* {markerCoordinates && (
         <Marker title="Picked Location" coordinate={markerCoordinates} />
       )} */}
