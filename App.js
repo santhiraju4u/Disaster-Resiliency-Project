@@ -6,13 +6,33 @@ import * as Font from "expo-font";
 import ReduxThunk from "redux-thunk";
 import placesReducer from "./store/places-reducer";
 import { init } from "./helpers/db";
+import authReducer from "./store/reducers/auth";
 
 import productsReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
 import ordersReducer from "./store/reducers/orders";
 import ShopNavigator from "./navigation/ShopNavigator";
 import PlacesNavigator from "./navigation/PlacesNavigator";
+import TestNavigator from "./navigation/TestNavigator";
+// import { YellowBox } from "react-native";
+// YellowBox.ignoreWarnings(["Remote debugger"]);
+// console.ignoredYellowBox = ['Remote debugger'];
+import { YellowBox } from "react-native";
+import ApiKeys from "./constants/ApiKeys";
+import * as firebase from "firebase";
+import _ from "lodash";
 
+YellowBox.ignoreWarnings(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
+YellowBox.ignoreWarnings(["Remote debugger"]);
+if (!firebase.apps.length) {
+  firebase.initializeApp(ApiKeys.FirebaseConfig);
+}
 init()
   .then(() => {
     console.log("Initialized database");
@@ -23,10 +43,8 @@ init()
   });
 
 const rootReducer = combineReducers({
-  products: productsReducer,
-  cart: cartReducer,
-  orders: ordersReducer,
   places: placesReducer,
+  auth: authReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -53,6 +71,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
+      {/* <TestNavigator /> */}
       <ShopNavigator />
     </Provider>
   );

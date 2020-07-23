@@ -8,12 +8,25 @@ import PlaceItem from "../components/PlaceItem";
 import * as placesActions from "../store/places-actions";
 
 const PlacesListScreen = (props) => {
-  const places = useSelector((state) => state.places.places);
+  const places = useSelector((state) => state.places.userPlaces);
+  console.log("Your places are");
+  console.log(places);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(placesActions.loadPlaces());
   }, [dispatch]);
+
+  console.log("places length is " + places);
+
+  // if (places.length === 0) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  //       <Text>No incidents created, maybe start creating some?</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <FlatList
@@ -21,7 +34,7 @@ const PlacesListScreen = (props) => {
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
         <PlaceItem
-          image={itemData.item.imageUri}
+          image={itemData.item.imageUrl}
           title={itemData.item.title}
           address={itemData.item.address}
           onSelect={() => {

@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import { View, Button, Image, Text, StyleSheet, Alert } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
+import React, { useState } from "react";
+import { View, Button, Image, Text, StyleSheet, Alert } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
+//import { storage } from "./firebase";
+import * as firebase from "firebase";
+import Colors from "../constants/Colors";
+import "react-native-get-random-values";
+import { v1 as uuidv1 } from "uuid";
 
-import Colors from '../constants/Colors';
-
-const ImgPicker = props => {
+const ImgPicker = (props) => {
   const [pickedImage, setPickedImage] = useState();
 
   const verifyPermissions = async () => {
     const result = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (result.status !== 'granted') {
+    if (result.status !== "granted") {
       Alert.alert(
-        'Insufficient permissions!',
-        'You need to grant camera permissions to use this app.',
-        [{ text: 'Okay' }]
+        "Insufficient permissions!",
+        "You need to grant camera permissions to use this app.",
+        [{ text: "Okay" }]
       );
       return false;
     }
@@ -29,11 +32,40 @@ const ImgPicker = props => {
     const image = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
-      quality: 0.5
+      quality: 0.5,
     });
+    var myRef = firebase.database().ref().push();
+    var key = myRef.key;
+    const nam = "image" + key;
+    console.log("************************");
+    console.log(key);
+    if (!image.cancelled) {
+      await uploadImage(image.uri, nam)
+        .then(() => {
+          Alert.alert(JSON.stringify("Success"));
+        })
+        .catch((error) => {
+          Alert.alert(JSON.stringify(error));
+        });
+      var ref = firebase
+        .storage()
+        .ref()
+        .child("images/" + nam);
+      let url = await ref.getDownloadURL();
+      console.log("Image stored here" + url);
+      setPickedImage(url);
+      props.onImageTaken(url);
+    }
+  };
+  const uploadImage = async (uri, imageName) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
 
-    setPickedImage(image.uri);
-    props.onImageTaken(image.uri);
+    var ref = firebase
+      .storage()
+      .ref()
+      .child("images/" + imageName);
+    return ref.put(blob);
   };
 
   return (
@@ -56,22 +88,22 @@ const ImgPicker = props => {
 
 const styles = StyleSheet.create({
   imagePicker: {
-    alignItems: 'center',
-    marginBottom: 15
+    alignItems: "center",
+    marginBottom: 15,
   },
   imagePreview: {
-    width: '100%',
+    width: "100%",
     height: 200,
     marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#ccc',
-    borderWidth: 1
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   image: {
-    width: '100%',
-    height: '100%'
-  }
+    width: "100%",
+    height: "100%",
+  },
 });
 
 export default ImgPicker;

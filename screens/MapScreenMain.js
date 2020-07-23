@@ -4,26 +4,114 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Dimensions,
+  Alert,
   Platform,
+  TextInput,
 } from "react-native";
+
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  InfoWindow,
+} from "react-google-maps";
 
 import Colors from "../constants/Colors";
 import MapView, { Marker } from "react-native-maps";
 import HeaderButton from "../components/UI/HeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import { Callout } from "react-native-maps";
+import { useSelector, useDispatch } from "react-redux";
+
+import * as placesActions from "../store/places-actions";
 
 const MapScreenMain = (props) => {
+  const [isFetching, setIsFetching] = useState(false);
+  const [pickedLocation, setPickedLocation] = useState();
   const initialLocation = props.navigation.getParam("initialLocation");
   const readonly = props.navigation.getParam("readonly");
 
   const [selectedLocation, setSelectedLocation] = useState(initialLocation);
-  const mapRegion = {
-    latitude: initialLocation ? initialLocation.lat : 51.523,
-    longitude: initialLocation ? initialLocation.lng : 0.0803,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+
+  //////////////////////////////////////////
+  // const places = useSelector((state) => state.places.places);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(placesActions.loadPlaces());
+  // }, [dispatch]);
+
+  /////////////////////////////////////////
+  /////////////////////////////////////////////////
+  const verifyPermissions = async () => {
+    const result = await Permissions.askAsync(Permissions.LOCATION);
+    if (result.status !== "granted") {
+      Alert.alert(
+        "Insufficient permissions!",
+        "You need to grant location permissions to use this app.",
+        [{ text: "Okay" }]
+      );
+      return false;
+    }
+    return true;
   };
 
+  const getLocationHandler = async () => {
+    const hasPermission = await verifyPermissions();
+
+    const response = await fetch(
+      `https://hackathon-9c653.firebaseio.com/places.json`
+    );
+    const resData = await response.json(); //fetching from server
+    console.log("your dataaaaaaaaaaaaaaaaaaaaaaaaaa");
+    console.log(resData);
+    console.log("lat only------------------------");
+    var result = [];
+    var keys = Object.keys(resData);
+    keys.forEach(function (key) {
+      result.push(resData[key]);
+    });
+
+    let wholeArray = Object.keys(resData).map((key) => resData[key]);
+    const load = [];
+    for (const key in resData) {
+      load.push(resData[key].coords);
+    }
+    //const hg = resData.key.coords.lat;
+    console.log(wholeArray.coords);
+
+    if (!hasPermission) {
+      return;
+    }
+
+    try {
+      setIsFetching(true);
+      const location = await Location.getCurrentPositionAsync({
+        timeout: 5000,
+      });
+      setPickedLocation({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+      // console.log("Found your location" + location.coords.latitude);
+      //console.log(location.coords.longitude);
+      props.onLocationPicked({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+    } catch (err) {
+      // Alert.alert(
+      //   "Could not fetch location!",
+      //   "Please try again later or pick a location on the map.",
+      //   [{ text: "Okay" }]
+      // );
+    }
+    setIsFetching(false);
+  };
+  ////////////////////////////////////////////////////////
   const selectLocationHandler = (event) => {
     if (readonly) {
       return;
@@ -32,45 +120,161 @@ const MapScreenMain = (props) => {
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude,
     });
+    // console.log(event.nativeEvent.coordinate.latitude);
+    // console.log(event.nativeEvent.coordinate.longitude);
+  };
+  ////////////////////////////////////////////////
+
+  componentDidMount = () => {
+    this.getLocationHandler();
   };
 
-  const savePickedLocationHandler = useCallback(() => {
-    if (!selectedLocation) {
-      // could show an alert!
-      return;
-    }
-    props.navigation.navigate("NewPlace", { pickedLocation: selectedLocation });
-  }, [selectedLocation]);
+  ////////////////////////////////////////////////
+  //console.log(selectedLocation.lng);
 
-  useEffect(() => {
-    props.navigation.setParams({ saveLocation: savePickedLocationHandler });
-  }, [savePickedLocationHandler]);
+  let regionone = {
+    latitude: 51.523,
+    longitude: 0.0803,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+
+  let mapRegion = {
+    region: [
+      {
+        id: 1,
+        title: "Fire",
+        regionone: {
+          latitude: 51.523,
+          longitude: 0.0803,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+      },
+      {
+        id: 2,
+        title: "Fire",
+        regionone: {
+          latitude: 51.5585169,
+          longitude: 0.0108724,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+      },
+      {
+        id: 3,
+        title: "Fire",
+        regionone: {
+          latitude: 51.533,
+          longitude: 0.0108512,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+      },
+      {
+        id: 4,
+        title: "Fire",
+        regionone: {
+          latitude: 51.543,
+          longitude: 0.0108618,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+      },
+      {
+        id: 5,
+        title: "Fire",
+        regionone: {
+          latitude: 51.54135303611579,
+          longitude: 0.03898490220308304,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+      },
+      {
+        id: 6,
+        title: "Water",
+        regionone: {
+          latitude: 51.53377586302478,
+          longitude: 0.044029802083969116,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+      },
+      0,
+    ],
+  };
+  let mapRegions = mapRegion.region
+    .filter((item) => item.title == "Fire")
+    .map(({ id, regionone }) => ({ id, regionone }));
+  //console.log(mapRegion.region.filter(mapRegion.region, { title: "Fire" }));
+  //console.log("Only" + mapRegions);
+  // console.log(mapRegion);
+  let focusRegion;
+  if (pickedLocation) {
+    focusRegion = {
+      latitude: pickedLocation.lat,
+      longitude: pickedLocation.lng,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+  } else {
+    focusRegion = {
+      latitude: 51.53377586302478,
+      longitude: 0.044029802083969116,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+  }
 
   let markerCoordinates;
-
-  if (selectedLocation) {
+  if (pickedLocation) {
     markerCoordinates = {
-      latitude: selectedLocation.lat,
-      longitude: selectedLocation.lng,
+      latitude: pickedLocation.lat,
+      longitude: pickedLocation.lng,
     };
   }
 
   return (
     <MapView
       style={styles.map}
-      region={mapRegion}
-      onPress={selectLocationHandler}
+      placeholder="Search location"
+      minLength={2}
+      region={focusRegion}
+      // onPress={componentDidMount()}
+      onMapReady={getLocationHandler}
+      showsUserLocation={true}
+      //followsUserLocation={true}
+      loadingEnabled={true}
+      loadingIndicatorColor={"#606060"}
     >
-      {markerCoordinates && (
+      {mapRegion.region
+        .filter((item) => item.title == "Fire")
+        .map((marker) => (
+          <Marker
+            key={marker.id}
+            coordinate={marker.regionone}
+            title={marker.title}
+          >
+            <MapView.Callout tooltip={false}>
+              <Text>Fire</Text>
+            </MapView.Callout>
+            {/* <InfoWindow key={marker.id} visible={true}>
+            <div>{marker.title}</div>
+          </InfoWindow> */}
+            {/* <Text style={{ color: "black", marginBottom: 50 }}>My Location</Text> */}
+          </Marker>
+        ))}
+      {/* {markerCoordinates && (
         <Marker title="Picked Location" coordinate={markerCoordinates} />
-      )}
+      )} */}
     </MapView>
   );
 };
 
 MapScreenMain.navigationOptions = (navData) => {
   return {
-    headerTitle: "Map View",
+    headerTitle: "Map view: Tap to Zoom",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -84,10 +288,16 @@ MapScreenMain.navigationOptions = (navData) => {
     ),
   };
 };
+var width = Dimensions.get("window").width;
+var height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   map: {
     flex: 1,
+    // width: width,
+    // height: height,
+    //position: "absolute",
+    //position: "relative",
   },
   headerButton: {
     marginHorizontal: 20,
@@ -95,6 +305,23 @@ const styles = StyleSheet.create({
   headerButtonText: {
     fontSize: 16,
     color: Platform.OS === "android" ? "white" : Colors.primary,
+  },
+  calloutView: {
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    borderRadius: 10,
+    width: "40%",
+    position: "absolute",
+    marginRight: "30%",
+    marginTop: 20,
+  },
+  calloutSearch: {
+    borderColor: "transparent",
+
+    width: "90%",
+    marginRight: 10,
+    height: 40,
+    borderWidth: 0.0,
   },
 });
 
