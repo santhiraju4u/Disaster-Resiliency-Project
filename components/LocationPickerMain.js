@@ -52,14 +52,13 @@ const LocationPicker = (props) => {
       const location = await Location.getCurrentPositionAsync({
         timeout: 5000,
       });
-      console.log("Yay I selected the location" + location);
       setPickedLocation({
-        // lat: location.coords.latitude,
-        //lng: location.coords.longitude,
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
       });
       props.onLocationPicked({
-        // lat: location.coords.latitude,
-        // lng: location.coords.longitude,
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
       });
     } catch (err) {
       Alert.alert(
@@ -94,6 +93,11 @@ const LocationPicker = (props) => {
           color={Colors.primary}
           onPress={getLocationHandler}
         />
+        <Button
+          title="Pick on Map"
+          color={Colors.primary}
+          onPress={pickOnMapHandler}
+        />
       </View>
     </View>
   );
@@ -101,10 +105,14 @@ const LocationPicker = (props) => {
 
 const styles = StyleSheet.create({
   locationPicker: {
-    flex: 1,
+    marginBottom: 15,
   },
   mapPreview: {
-    flex: 1,
+    marginBottom: 10,
+    width: "100%",
+    height: 150,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   actions: {
     flexDirection: "row",

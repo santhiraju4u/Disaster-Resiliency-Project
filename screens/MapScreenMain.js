@@ -242,7 +242,18 @@ const MapScreenMain = (props) => {
           key={marker.id}
           coordinate={{ latitude: marker.lat, longitude: marker.lng }}
           title={marker.title}
+          x
         >
+          <MapView.Callout
+            title={true}
+            width={210}
+            onPress={() => {
+              props.navigation.navigate("PlaceDetail", {
+                placeTitle: marker.title,
+                placeId: marker.id,
+              });
+            }}
+          ></MapView.Callout>
           {/* <MapView.Callout tooltip={false}>
             <Text>Fire</Text>
           </MapView.Callout> */}
@@ -270,7 +281,7 @@ const MapScreenMain = (props) => {
 
 MapScreenMain.navigationOptions = (navData) => {
   return {
-    headerTitle: "Map view: Tap to Zoom",
+    headerTitle: "Incidents near you",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

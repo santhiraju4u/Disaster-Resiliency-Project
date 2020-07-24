@@ -9,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
+import { Entypo } from "@expo/vector-icons";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
@@ -29,7 +30,7 @@ import PlacesListScreen from "../screens/PlacesListScreen";
 import PlaceDetailScreen from "../screens/PlaceDetailScreen";
 import NewPlaceScreen from "../screens/NewPlaceScreen";
 import MapScreenMain from "../screens/MapScreenMain";
-
+import IncidentsScreen from "../screens/IncidentsScreen";
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === "android" ? Colors.primary : "",
@@ -45,8 +46,9 @@ const defaultNavOptions = {
 
 const ProductsNavigator = createStackNavigator(
   {
-    Places: PlacesListScreen,
+    Places: IncidentsScreen,
     PlaceDetail: PlaceDetailScreen,
+    Map: MapScreen,
     // ProductsOverview: ProductsOverviewScreen,
     // ProductDetail: ProductDetailScreen,
     // Cart: CartScreen,
@@ -54,8 +56,8 @@ const ProductsNavigator = createStackNavigator(
   {
     navigationOptions: {
       drawerIcon: (drawerConfig) => (
-        <Ionicons
-          name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+        <Entypo
+          name={Platform.OS === "android" ? "news" : "ios-cart"}
           size={23}
           color={drawerConfig.tintColor}
         />
@@ -154,6 +156,25 @@ const HomeNavigator = createStackNavigator(
   }
 );
 
+const TakeBack = createStackNavigator(
+  {
+    Map: MapScreen,
+    ViewDetail: PlaceDetailScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={Platform.OS === "android" ? "md-map" : "ios-create"}
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
+    },
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
 const PlacesNavigator = createStackNavigator(
   {
     Places: PlacesListScreen,
@@ -177,7 +198,9 @@ const PlacesNavigator = createStackNavigator(
 
 const MapNavigator = createStackNavigator(
   {
-    Map: MapScreenMain,
+    MapView: MapScreenMain,
+    PlaceDetail: PlaceDetailScreen,
+    Map: MapScreen,
   },
   {
     navigationOptions: {
@@ -192,44 +215,58 @@ const MapNavigator = createStackNavigator(
     defaultNavigationOptions: defaultNavOptions,
   }
 );
-const tabScreenConfig = createBottomTabNavigator({
-  Home: {
-    screen: HomeNavigator,
-    navigationOptions: {
-      tabBarIcon: (tabInfo) => {
-        return <Ionicons name="ios-home" size={25} color={tabInfo.tintColor} />;
+const tabScreenConfig = createBottomTabNavigator(
+  {
+    // Home: {
+    //   screen: HomeNavigator,
+    //   navigationOptions: {
+    //     tabBarIcon: (tabInfo) => {
+    //       return <Ionicons name="ios-home" size={25} color={tabInfo.tintColor} />;
+    //     },
+    //   },
+    // },
+    Map: {
+      screen: MapNavigator,
+      navigationOptions: {
+        //tabBarLabel: "Favorites!",
+        tabBarIcon: (tabInfo) => {
+          return <Ionicons name="md-map" size={25} color={tabInfo.tintColor} />;
+        },
+      },
+    },
+    Report: {
+      screen: PlacesNavigator,
+      navigationOptions: {
+        //tabBarLabel: "Favorites!",
+        tabBarIcon: (tabInfo) => {
+          return <Ionicons name="md-add" size={25} color={tabInfo.tintColor} />;
+        },
+      },
+    },
+    Chat: {
+      screen: ChatNavigator,
+      navigationOptions: {
+        tabBarIcon: (tabInfo) => {
+          return (
+            <Ionicons name="md-chatboxes" size={25} color={tabInfo.tintColor} />
+          );
+        },
       },
     },
   },
-  Chat: {
-    screen: ChatNavigator,
+  {
     navigationOptions: {
-      tabBarIcon: (tabInfo) => {
-        return (
-          <Ionicons name="md-chatboxes" size={25} color={tabInfo.tintColor} />
-        );
-      },
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={Platform.OS === "android" ? "ios-home" : "ios-create"}
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
     },
-  },
-  Map: {
-    screen: MapNavigator,
-    navigationOptions: {
-      //tabBarLabel: "Favorites!",
-      tabBarIcon: (tabInfo) => {
-        return <Ionicons name="md-map" size={25} color={tabInfo.tintColor} />;
-      },
-    },
-  },
-  Report: {
-    screen: PlacesNavigator,
-    navigationOptions: {
-      //tabBarLabel: "Favorites!",
-      tabBarIcon: (tabInfo) => {
-        return <Ionicons name="md-add" size={25} color={tabInfo.tintColor} />;
-      },
-    },
-  },
-});
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
 
 // const MealsFavTabNavigator =
 //   Platform.OS === "android"
@@ -247,24 +284,27 @@ const tabScreenConfig = createBottomTabNavigator({
 //       });
 const ShopNavigator = createDrawerNavigator(
   {
-    MealsFavs: {
-      screen: tabScreenConfig,
-      navigationOptions: {
-        drawerLabel: "Home",
-        drawerIcon: (drawerConfig) => (
-          <Ionicons
-            name={Platform.OS === "android" ? "ios-home" : "ios-list"}
-            size={23}
-            color={drawerConfig.tintColor}
-          />
-        ),
-      },
-    },
-    Incidents: ProductsNavigator,
-    Notification: OrdersNavigator,
-    Settings: AdminNavigator,
-    Welcome: welcomeNavigator,
+    // MealsFavs: {
     Home: tabScreenConfig,
+    // navigationOptions: {
+    //   drawerLabel: "Home",
+    //   drawerIcon: (drawerConfig) => (
+    //     <Ionicons
+    //       name={Platform.OS === "android" ? "ios-home" : "ios-list"}
+    //       size={23}
+    //       color={drawerConfig.tintColor}
+    //     />
+    //   ),
+    // },
+    // },
+    Incidents: ProductsNavigator,
+    // Notification: OrdersNavigator,
+    Notification: welcomeNavigator,
+    Settings: HomeNavigator,
+
+    // Settings: AdminNavigator,
+    // Welcome: welcomeNavigator,
+    // Home: tabScreenConfig,
     // test: MealsFavTabNavigator,
   },
   {

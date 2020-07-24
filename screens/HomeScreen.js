@@ -8,13 +8,13 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 function HomeScreen(props) {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
+      <Text>Under development!</Text>
     </View>
   );
 }
 HomeScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: "Home for now",
+    headerTitle: "Settings",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
