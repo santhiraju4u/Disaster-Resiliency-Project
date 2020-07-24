@@ -117,7 +117,9 @@ export const loadPlaces = () => {
         );
       }
       console.log("this is loaded products");
-      console.log(loadedProducts);
+
+      // var heh = loadedProducts.map((o) => o.ownerID);
+      // console.log(heh);
       console.log("///////////////////////////////////////////////////");
       console.log("filtered products are");
       console.log(userId);
