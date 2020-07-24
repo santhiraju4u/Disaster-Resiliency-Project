@@ -5,6 +5,7 @@ import {
   Button,
   Text,
   TextInput,
+  Picker,
   StyleSheet,
 } from "react-native";
 import { useDispatch } from "react-redux";
@@ -34,22 +35,40 @@ const NewPlaceScreen = (props) => {
     setSelectedLocation(location);
   }, []);
 
-  const savePlaceHandler = () => {
+const savePlaceHandler = () => {
+    if (!titleValue || !selectedImage || !selectedLocation || titleValue=="placeholder") {
+      Alert.alert(
+        "Missing fields",
+        "Please select issue type, click image and pick location to continue"
+      );
+    } else {
     dispatch(
       placesActions.addPlace(titleValue, selectedImage, selectedLocation)
     );
     props.navigation.goBack();
+    }
   };
-
   return (
     <ScrollView>
       <View style={styles.form}>
-        <Text style={styles.label}>Title</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={titleChangeHandler}
-          value={titleValue}
-        />
+      <View>
+          <Text style={styles.label}>Select the issue to report below</Text>
+            <Picker style={styles.picker}
+              selectedValue={titleValue}
+              style={{ height: 50, width: '100%' }}
+              onValueChange={titleChangeHandler}
+              >
+              <Picker.Item label="Select the issue" color="#dc143c" value="placeholder"/>
+              {/* <Picker.Item label="------------------------" color='#00ffff'/> */}
+              <Picker.Item label="Fire" value="fire" />
+              <Picker.Item label="Water Leakage" value="waterleak" />
+              <Picker.Item label="Bush Fire" value="bushfire" />
+              <Picker.Item label="Toxic Leakage" value="toxicleak" />
+              <Picker.Item label="Flood" value="flood" />
+              <Picker.Item label="Earthquake" value="earthquake" />
+              <Picker.Item label="Tsunami" value="tsunami" />
+            </Picker>
+        </View>
         <ImagePicker onImageTaken={imageTakenHandler} />
         <LocationPicker
           navigation={props.navigation}
