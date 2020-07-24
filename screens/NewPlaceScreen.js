@@ -65,8 +65,8 @@ const savePlaceHandler = () => {
               <Picker.Item label="Bush Fire" value="bushfire" />
               <Picker.Item label="Toxic Leakage" value="toxicleak" />
               <Picker.Item label="Flood" value="flood" />
-              <Picker.Item label="Earthquake" value="earthquake" />
-              <Picker.Item label="Tsunami" value="tsunami" />
+              {/* <Picker.Item label="Earthquake" value="earthquake" /> */}
+              {/* <Picker.Item label="Tsunami" value="tsunami" /> */}
             </Picker>
         </View>
         <ImagePicker onImageTaken={imageTakenHandler} />
