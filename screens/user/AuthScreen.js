@@ -7,6 +7,8 @@ import {
   Button,
   ActivityIndicator,
   Alert,
+  Image,
+  ImageBackground,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch } from "react-redux";
@@ -102,14 +104,16 @@ const AuthScreen = (props) => {
   );
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={50}
-      style={styles.screen}
-    >
+    // <KeyboardAvoidingView
+    //   behavior="padding"
+    //   //keyboardVerticalOffset={50}
+    //   style={styles.screen}
+    // >
+      <View style={styles.screen}>
+       
       <LinearGradient colors={["#ffedff", "#ffe3ff"]} style={styles.gradient}>
         <Card style={styles.authContainer}>
-          <ScrollView>
+          {/* <ScrollView> */}
             <Input
               id="email"
               label="E-Mail"
@@ -153,10 +157,11 @@ const AuthScreen = (props) => {
                 }}
               />
             </View>
-          </ScrollView>
+          {/* </ScrollView> */}
         </Card>
       </LinearGradient>
-    </KeyboardAvoidingView>
+    {/* </KeyboardAvoidingView> */}
+    </View>
   );
 };
 
@@ -174,13 +179,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   authContainer: {
-    width: "80%",
+    width: "90%",
     maxWidth: 400,
     maxHeight: 400,
     padding: 20,
   },
   buttonContainer: {
     marginTop: 10,
+    
   },
 });
 
