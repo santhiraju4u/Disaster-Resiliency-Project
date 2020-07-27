@@ -5,6 +5,7 @@ import {
   Button,
   Text,
   TextInput,
+  Alert,
   Picker,
   StyleSheet,
 } from "react-native";
@@ -14,6 +15,8 @@ import Colors from "../constants/Colors";
 import * as placesActions from "../store/places-actions";
 import ImagePicker from "../components/ImagePicker";
 import LocationPicker from "../components/LocationPicker";
+import { compose } from "redux";
+
 
 const NewPlaceScreen = (props) => {
   const [titleValue, setTitleValue] = useState("");
@@ -42,9 +45,9 @@ const savePlaceHandler = () => {
         "Please select issue type, click image and pick location to continue"
       );
     } else {
-    dispatch(
-      placesActions.addPlace(titleValue, selectedImage, selectedLocation)
-    );
+      dispatch(
+        placesActions.addPlace(titleValue, selectedImage, selectedLocation)
+      );
     props.navigation.goBack();
     }
   };
