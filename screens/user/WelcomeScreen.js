@@ -2,19 +2,18 @@ import React from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from "../../components/UI/HeaderButton";
-import { ImageBackground, StyleSheet } from "react-native";
+import { ImageBackground, StyleSheet, View, Text } from "react-native";
 
 function WelcomeScreen(props) {
   return (
-    <ImageBackground
-      style={styles.centered}
-      source={require("../../images/home.png")}
-    ></ImageBackground>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Under development!</Text>
+    </View>
   );
 }
 WelcomeScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: "Your Ordersfinal",
+    headerTitle: "Notifications",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

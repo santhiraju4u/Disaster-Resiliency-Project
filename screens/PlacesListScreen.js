@@ -20,13 +20,13 @@ const PlacesListScreen = (props) => {
 
   console.log("places length is " + places);
 
-  // if (places.length === 0) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-  //       <Text>No incidents created, maybe start creating some?</Text>
-  //     </View>
-  //   );
-  // }
+  if (places.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>No incidents created, maybe start creating some?</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList

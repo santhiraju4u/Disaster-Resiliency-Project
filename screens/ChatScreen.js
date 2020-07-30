@@ -162,7 +162,7 @@ const ChatScreen = function ({ navigation }) {
 
 ChatScreen.navigationOptions = (navData) => {
   return {
-    headerTitle: "Chat for now",
+    headerTitle: "Chat",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

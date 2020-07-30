@@ -209,10 +209,10 @@ const MapScreenMain = (props) => {
     };
   } else {
     focusRegion = {
-      latitude: 51.53377586302478,
-      longitude: 0.044029802083969116,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitude: 55.378051,
+      longitude: 3.435973,
+      latitudeDelta: 0.0012,
+      longitudeDelta: 0.00005,
     };
   }
 
@@ -221,6 +221,8 @@ const MapScreenMain = (props) => {
     markerCoordinates = {
       latitude: pickedLocation.lat,
       longitude: pickedLocation.lng,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
     };
   }
 
